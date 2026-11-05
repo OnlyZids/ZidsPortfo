@@ -524,10 +524,10 @@
         if ($('bg')) $('bg').style.display = 'none';
     } else {
         // Jalankan Three.js 3D khusus Desktop
-        var renderer = new THREE.WebGLRenderer({
-            canvas: $('bg'), antialias: true, alpha: true
-        });
-        renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); // Kurangi pixel ratio ke 1.5 biar enteng
+        // var renderer = new THREE.WebGLRenderer({
+        //     canvas: $('bg'), antialias: true, alpha: true
+        // });
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 1.25)); // Kurangi pixel ratio ke 1.5 biar enteng
         
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(55, 1, .1, 100);
