@@ -517,9 +517,21 @@
          });
      })();
      // Scene 3D
-     var renderer=new THREE.WebGLRenderer( {
-         canvas:$('bg'),antialias:true,alpha:true
-     });
+     // Cek apakah layar mobile
+    var isMobile = innerWidth < 768;
+
+    if (isMobile) {
+        // Sembunyikan canvas background di mobile untuk menghemat CPU HP
+        if ($('bg')) $('bg').style.display = 'none';
+    } else {
+        // Jalankan Three.js 3D hanya di Desktop
+        var renderer = new THREE.WebGLRenderer({
+            canvas: $('bg'), antialias: true, alpha: true
+        });
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        
+        // ... (biarkan sisa kode Three.js berjalan seperti biasa untuk Desktop)
+    }
      renderer.setPixelRatio(Math.min(devicePixelRatio,2));
      var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(55,1,.1,100);camera.position.z=9;
      function mat(c,o) {

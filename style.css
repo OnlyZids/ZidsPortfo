@@ -2630,3 +2630,22 @@ img,svg,canvas {
 @media (max-width:560px) {
  .socials a { width:44px; height:44px; }
 }
+
+@media (max-width: 768px) {
+    /* Matikan efek asap intro yang berat di HP */
+    .intro-smoke {
+        display: none !important;
+    }
+
+    /* Matikan efek backdrop blur pada elemen UI di HP */
+    nav, .gc, .ab-tag, #pm, .pm-box {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* Hilangkan animasi ekstrusi 3D berlebihan pada kartu di HP */
+    .bc, .sk, .sv, .stp, .card, blockquote {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        transform: none !important;
+    }
+}
