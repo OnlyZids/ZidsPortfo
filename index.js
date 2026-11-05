@@ -6,18 +6,18 @@
      // Data
      var projects=[
                 [
-                "Aplikasi BanGo","Aplikasi","Aplikasi mobile untuk layanan bantuan ban menggunakan Flutter, Firebase, dan Laravel.","project/bango.png"
+                "Aplikasi BanGo","Aplikasi","Aplikasi mobile untuk layanan bantuan ban menggunakan Flutter, Firebase, dan Laravel.","project/bango.webp"
                 ],
 
-                ["Website Jurusan Bisnis","Web","Website informasi Jurusan Bisnis Politeknik Negeri Jember..","project/bisnis.jpeg"
+                ["Website Jurusan Bisnis","Web","Website informasi Jurusan Bisnis Politeknik Negeri Jember..","project/bisnis.webp"
                 ],
-                ["Website Aplikasi Booking Lapangan Badminton","Web","Website Boking Lapangan Badinton","project/badminton.jpeg"
+                ["Website Aplikasi Booking Lapangan Badminton","Web","Website Boking Lapangan Badinton","project/badminton.webp"
                 ],
-                ["Website Sirkular Dinas Lingkungan Hidup (DLH)","Web","Aplikasi berbasis web ini kita rancang buat digitalisasi pengelolaan sampah,","project/dlh.jpeg"
+                ["Website Sirkular Dinas Lingkungan Hidup (DLH)","Web","Aplikasi berbasis web ini kita rancang buat digitalisasi pengelolaan sampah,","project/dlh.webp"
                 ],
-                ["Website E-Comers","Web","Website E-comers yang menjual Mie Lidi","project/cemilz.jpeg"
+                ["Website E-Comers","Web","Website E-comers yang menjual Mie Lidi","project/cemilz.webp"
                 ],
-                ["Website PO Catering MBG","Web","Makan Apa adalah platform catering & meal planner digital yang dirancang khusus untuk mahasiswa dan profesional muda.","project/makanapa.png"
+                ["Website PO Catering MBG","Web","Makan Apa adalah platform catering & meal planner digital yang dirancang khusus untuk mahasiswa dan profesional muda.","project/makanapa.webp"
                 ],
                 // ["Proyek Aplikasi","Aplikasi","Deskripsi singkat aplikasi yang kamu buat.",""
 
@@ -27,11 +27,11 @@
 
                 // ],
                 // sertifikat
-                ["Sertifikat 1","Sertifikat","Moch Yazid Al Bustomi","certificat/s1.png"
+                ["Sertifikat 1","Sertifikat","Moch Yazid Al Bustomi","certificat/s1.webp"
                 ],
-                ["Sertifikat 2","Sertifikat","Moch Yazid Al Bustomi","certificat/s2.png"
+                ["Sertifikat 2","Sertifikat","Moch Yazid Al Bustomi","certificat/s2.webp"
                 ],
-                ["Sertifikat 3","Sertifikat","Moch Yazid Al Bustomi","certificat/s3.jpeg"
+                ["Sertifikat 3","Sertifikat","Moch Yazid Al Bustomi","certificat/s3.webp"
                 ]];
      var cats=["Semua","Web","Aplikasi","Sertifikat","Lainnya"];
      $('grid').innerHTML=projects.map(function(p,i) {
@@ -384,9 +384,9 @@
      ["Figma","Desain","figma","#F24E1E","#fff","Wireframe, prototipe, dan desain antarmuka."],
      ["Tailwind CSS","Frontend","tailwind","#06B6D4","#1a1a1a","Styling cepat dengan utility class."],
      ["MySQL","Backend","mysql","#4479A1","#fff","Database relasional untuk menyimpan data."],
-     ["Dart","Mobile","dart","#0175C2","#fff","Bahasa pemrograman di balik Flutter."],
-     ["Flutter","Mobile","flutter","#02569B","#fff","Aplikasi mobile lintas platform."],
-     ["Python","Data","python","#3776AB","#fff","Pengolahan dan analisis data."],
+    //  ["Dart","Mobile","dart","#0175C2","#fff","Bahasa pemrograman di balik Flutter."],
+    //  ["Flutter","Mobile","flutter","#02569B","#fff","Aplikasi mobile lintas platform."],
+    //  ["Python","Data","python","#3776AB","#fff","Pengolahan dan analisis data."],
      ["Excel","Data","excel","#217346","#fff","Rekap, pivot, dan analisis cepat."],
      ["Git","Tools","git","#F05032","#fff","Kontrol versi untuk setiap proyek."],
      ["GitHub","Tools","github","#181717","#fff","Kolaborasi dan hosting kode."],
