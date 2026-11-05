@@ -517,108 +517,99 @@
          });
      })();
      // Scene 3D
-     // Cek apakah layar mobile
     var isMobile = innerWidth < 768;
 
     if (isMobile) {
-        // Sembunyikan canvas background di mobile untuk menghemat CPU HP
+        // Sembunyikan canvas background di mobile
         if ($('bg')) $('bg').style.display = 'none';
     } else {
-        // Jalankan Three.js 3D hanya di Desktop
+        // Jalankan Three.js 3D khusus Desktop
         var renderer = new THREE.WebGLRenderer({
             canvas: $('bg'), antialias: true, alpha: true
         });
-        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); // Kurangi pixel ratio ke 1.5 biar enteng
         
-        // ... (biarkan sisa kode Three.js berjalan seperti biasa untuk Desktop)
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(55, 1, .1, 100);
+        camera.position.z = 9;
+
+        function mat(c, o) {
+            return new THREE.MeshBasicMaterial({
+                color: c, wireframe: true, transparent: true, opacity: o || .4
+            });
+        }
+
+        var shapes = [
+            [new THREE.TorusKnotGeometry(2, .55, 100, 14), 0x8ea2ff, 3.4, 0],
+            [new THREE.IcosahedronGeometry(2.2, 1), 0xffcf7a, -4, -9],
+            [new THREE.OctahedronGeometry(2.4, 1), 0x8ea2ff, 4, -18]
+        ].map(function(s) {
+            var m = new THREE.Mesh(s[0], mat(s[1]));
+            m.userData = { x: s[2] };
+            m.position.set(s[2], s[3], 0);
+            scene.add(m);
+            return m;
+        });
+
+        var orbit = new THREE.Group();
+        shapes[0].add(orbit);
+        for (var i = 0; i < 4; i++) {
+            var b = new THREE.Mesh(new THREE.SphereGeometry(.18, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffcf7a }));
+            var a = i / 4 * Math.PI * 2;
+            b.position.set(Math.cos(a) * 3.6, Math.sin(a * 2) * .8, Math.sin(a) * 3.6);
+            orbit.add(b);
+        }
+
+        // Partikel di-reduce ke 200 titik
+        var n = 200, p = new Float32Array(n * 3);
+        for (var j = 0; j < n * 3; j += 3) {
+            p[j] = (Math.random() - .5) * 40;
+            p[j + 1] = -Math.random() * 50 + 8;
+            p[j + 2] = (Math.random() - .5) * 30;
+        }
+        var g = new THREE.BufferGeometry();
+        g.setAttribute('position', new THREE.BufferAttribute(p, 3));
+        scene.add(new THREE.Points(g, new THREE.PointsMaterial({
+            color: 0xb8c2ff, size: .06, transparent: true, opacity: .6
+        })));
+
+        var mx = 0, my = 0, sy = 0;
+        addEventListener('pointermove', function(e) {
+            mx = e.clientX / innerWidth - .5;
+            my = e.clientY / innerHeight - .5;
+        });
+        addEventListener('scroll', function() {
+            sy = scrollY / Math.max(1, document.body.scrollHeight - innerHeight);
+            $('bar').style.width = sy * 100 + '%';
+        }, { passive: true });
+
+        function resize() {
+            var w = innerWidth, h = innerHeight;
+            renderer.setSize(w, h, false);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+        }
+        addEventListener('resize', resize);
+        resize();
+
+        scene.add(new THREE.AmbientLight(0xffffff, .6));
+        var dl = new THREE.DirectionalLight(0xffffff, .9);
+        dl.position.set(4, 6, 8);
+        scene.add(dl);
+
+        var t = 0, cy = 0;
+        (function frame() {
+            if (!reduce) t += .004;
+            shapes.forEach(function(s, i) {
+                s.rotation.x = t * (.4 + i * .1) + mx;
+                s.rotation.y = t * (.6 + i * .05) + my;
+            });
+            orbit.rotation.y = -t * 1.2;
+            cy += (-sy * 36 - cy) * .06;
+            camera.position.set(camera.position.x + (mx * 1.5 - camera.position.x) * .05, cy - my * 1.2, 9);
+            camera.lookAt(camera.position.x * .3, cy, 0);
+            renderer.render(scene, camera);
+            requestAnimationFrame(frame);
+        })();
     }
-     renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-     var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(55,1,.1,100);camera.position.z=9;
-     function mat(c,o) {
-         return new THREE.MeshBasicMaterial( {
-             color:c,wireframe:true,transparent:true,opacity:o||.5
-         })
-     }
-     var shapes=[
-     [new THREE.TorusKnotGeometry(2,.55,160,20),0x8ea2ff,3.4,0],
-     [new THREE.IcosahedronGeometry(2.2,1),0xffcf7a,-4,-9],
-     [new THREE.OctahedronGeometry(2.4,1),0x8ea2ff,4,-18],
-     [new THREE.TorusGeometry(2,.6,16,48),0xffcf7a,-4,-27],
-     [new THREE.DodecahedronGeometry(2.3,0),0x8ea2ff,4,-36]
-     ].map(function(s) {
-         var m=new THREE.Mesh(s[0],mat(s[1]));m.userData= {
-             x:s[2]
-         };m.position.set(s[2],s[3],0);scene.add(m);return m
-     });
-     var orbit=new THREE.Group();shapes[0].add(orbit);
-     for(var i=0;i<6;i++) {
-         var b=new THREE.Mesh(new THREE.SphereGeometry(.18,16,16),new THREE.MeshBasicMaterial( {
-             color:0xffcf7a
-         })),a=i/6*Math.PI*2;b.position.set(Math.cos(a)*3.6,Math.sin(a*2)*.8,Math.sin(a)*3.6);orbit.add(b)
-     }
-     var n=900,p=new Float32Array(n*3);for(var j=0;j<n*3;j+=3) {
-         p[j]=(Math.random()-.5)*40;p[j+1]=-Math.random()*50+8;p[j+2]=(Math.random()-.5)*30
-     }
-     var g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));
-     scene.add(new THREE.Points(g,new THREE.PointsMaterial( {
-         color:0xb8c2ff,size:.06,transparent:true,opacity:.7
-     })));
-     var mx=0,my=0,sy=0;
-     addEventListener('pointermove',function(e) {
-         mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5
-     });
-     addEventListener('scroll',function() {
-         sy=scrollY/Math.max(1,document.body.scrollHeight-innerHeight);$('bar').style.width=sy*100+'%'
-     });
-     function resize() {
-         var w=innerWidth,h=innerHeight,k=w<760?.15:1;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();shapes.forEach(function(s) {
-             s.position.x=s.userData.x*k;s.material.opacity=w<760?.25:.5
-         })
-     }
-     addEventListener('resize',resize);resize();
-     // Lampu & objek solid berlampu
-     scene.add(new THREE.AmbientLight(0xffffff,.6));
-     var dl=new THREE.DirectionalLight(0xffffff,.9);dl.position.set(4,6,8);scene.add(dl);
-     var pl=new THREE.PointLight(0xffcf7a,2,45);scene.add(pl);
-     var solids=[
-     [new THREE.IcosahedronGeometry(1,0),0x8ea2ff,-7.4,-9,-2],
-     [new THREE.BoxGeometry(1.4,1.4,1.4),0xffcf7a,7.6,-11,-2],
-     [new THREE.OctahedronGeometry(1.1,0),0xff8fb1,-7.6,-13,0],
-     [new THREE.TorusGeometry(.9,.32,16,40),0x8ea2ff,7.2,-15,-1],
-    //  [new THREE.ConeGeometry(.9,1.8,5),0xffcf7a,-7.3,-21,-1],
-    //  [new THREE.TorusKnotGeometry(.8,.26,90,14),0xff8fb1,7.6,-24,-2],
-    //  [new THREE.DodecahedronGeometry(1,0),0x8ea2ff,-7.4,-30,0],
-    //  [new THREE.BoxGeometry(1.2,1.2,1.2),0xff8fb1,7.3,-32,-1],
-    //  [new THREE.IcosahedronGeometry(.9,0),0xffcf7a,-7,-38,-1],
-    //  [new THREE.OctahedronGeometry(1,0),0x8ea2ff,7.4,-40,0]
-     ].map(function(s) {
-         var m=new THREE.Mesh(s[0],new THREE.MeshStandardMaterial( {
-             color:s[1],emissive:s[1],emissiveIntensity:.08,metalness:.35,roughness:.35,flatShading:true,transparent:true,opacity:.95
-         }));
-         m.userData= {
-             x:s[2],y:s[3],z:s[4]
-         };m.position.set(s[2],s[3],s[4]);scene.add(m);return m
-     });
-     function resizeSolids() {
-         var w=innerWidth<760;solids.forEach(function(s) {
-             s.userData.k=w?.36:1;s.scale.setScalar(w?.7:1);s.material.opacity=w?.4:.85
-         })
-     }
-     addEventListener('resize',resizeSolids);resizeSolids();
-     var t=0,cy=0;
-     (function frame() {
-         if(!reduce)t+=.006;
-         shapes.forEach(function(s,i) {
-             s.rotation.x=t*(.6+i*.1)+mx;s.rotation.y=t*(.8+i*.05)+my
-         });
-         orbit.rotation.y=-t*1.5;
-         cy+=(-sy*36-cy)*.06;
-         camera.position.set(camera.position.x+(mx*1.5-camera.position.x)*.05,cy-my*1.2,9);
-         camera.lookAt(camera.position.x*.3,cy,0);
-         solids.forEach(function(s,i) {
-             var u=s.userData;s.rotation.x=t*(.7+i*.06);s.rotation.y=t*(.9+i*.04);s.position.x=u.x*u.k+mx*(1+i%3)*.6;s.position.y=u.y+Math.sin(t*4+i)*.35;s.position.z=u.z-my*(1+i%3)*.6
-         });
-         pl.position.set(mx*16,camera.position.y-my*10,5);
-         renderer.render(scene,camera);requestAnimationFrame(frame);
-     })();
- })();
+})();
