@@ -2348,7 +2348,7 @@ img,svg,canvas {
             white
         );
 
-    animation: introSmokeFade 2.8s cubic-bezier(.2, .7, .2, 1) forwards;
+    animation: introSmokeFade 1.0s cubic-bezier(.2, .7, .2, 1) forwards;
 }
 
 

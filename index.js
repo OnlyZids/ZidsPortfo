@@ -585,12 +585,12 @@
      [new THREE.BoxGeometry(1.4,1.4,1.4),0xffcf7a,7.6,-11,-2],
      [new THREE.OctahedronGeometry(1.1,0),0xff8fb1,-7.6,-13,0],
      [new THREE.TorusGeometry(.9,.32,16,40),0x8ea2ff,7.2,-15,-1],
-     [new THREE.ConeGeometry(.9,1.8,5),0xffcf7a,-7.3,-21,-1],
-     [new THREE.TorusKnotGeometry(.8,.26,90,14),0xff8fb1,7.6,-24,-2],
-     [new THREE.DodecahedronGeometry(1,0),0x8ea2ff,-7.4,-30,0],
-     [new THREE.BoxGeometry(1.2,1.2,1.2),0xff8fb1,7.3,-32,-1],
-     [new THREE.IcosahedronGeometry(.9,0),0xffcf7a,-7,-38,-1],
-     [new THREE.OctahedronGeometry(1,0),0x8ea2ff,7.4,-40,0]
+    //  [new THREE.ConeGeometry(.9,1.8,5),0xffcf7a,-7.3,-21,-1],
+    //  [new THREE.TorusKnotGeometry(.8,.26,90,14),0xff8fb1,7.6,-24,-2],
+    //  [new THREE.DodecahedronGeometry(1,0),0x8ea2ff,-7.4,-30,0],
+    //  [new THREE.BoxGeometry(1.2,1.2,1.2),0xff8fb1,7.3,-32,-1],
+    //  [new THREE.IcosahedronGeometry(.9,0),0xffcf7a,-7,-38,-1],
+    //  [new THREE.OctahedronGeometry(1,0),0x8ea2ff,7.4,-40,0]
      ].map(function(s) {
          var m=new THREE.Mesh(s[0],new THREE.MeshStandardMaterial( {
              color:s[1],emissive:s[1],emissiveIntensity:.08,metalness:.35,roughness:.35,flatShading:true,transparent:true,opacity:.95
